@@ -76,7 +76,17 @@ angular.module('wakeupApp', ['ionic', 'starter.controllers', 'starter.services']
         controller: 'AccountCtrl'
       }
     }
-  })
+    })
+
+    .state('tab.courses', {
+        url: '/courses',
+        views: {
+            'tab-courses': {
+                templateUrl: 'templates/tab-courses.html',
+                controller: 'CoursesCtrl'
+            }
+        }
+    })
 
     .state('tab.alarms', {
       url: '/alarms',
