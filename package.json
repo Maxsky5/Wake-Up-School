@@ -1,7 +1,7 @@
 {
-  "name": "example",
-  "version": "1.1.1",
-  "description": "example: An Ionic project",
+  "name": "wus",
+  "version": "1.0.0",
+  "description": "Wake me up for school",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
