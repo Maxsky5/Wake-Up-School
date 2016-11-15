@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('wakeupApp', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $http) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,9 +19,14 @@ angular.module('wakeupApp', ['ionic', 'ngCordova', 'starter.controllers', 'start
       StatusBar.styleDefault();
     }
   });
+
+  $http.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+
+        $httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
         // Ionic uses AngularUI Router which uses the concept of states
         // Learn more here: https://github.com/angular-ui/ui-router
         // Set up the various states which the app can be in.
@@ -65,15 +70,6 @@ angular.module('wakeupApp', ['ionic', 'ngCordova', 'starter.controllers', 'start
                }
                }
                })
-        .state('tab.courses', {
-                url: '/courses',
-                views: {
-                    'tab-courses': {
-                        templateUrl: 'templates/tab-courses.html',
-                        controller: 'CoursesCtrl'
-                    }
-                }
-                })
         .state('tab.alarms', {
                url: '/alarms',
                views: {
