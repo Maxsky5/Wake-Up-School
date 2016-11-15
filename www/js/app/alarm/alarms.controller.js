@@ -13,47 +13,22 @@ angular.module('wakeupApp')
         }
       ];
 
-    var successCallback = function(result) {
-      var message;
-      console.log
-      if (result.type==='wakeup') {
-        message = 'wakeup alarm detected--' + result.extra;
-      } else if(result.type==='set'){
-        message = 'wakeup alarm set--' + result;
-      } else {
-        message = 'wakeup unhandled type (' + result.type + ')';
-      }
 
-        $ionicPopup.alert({
-          title: 'Success !',
-          template: message
-        }).then(function(res) {
-        });
-    };
+    var now                = new Date().getTime(),
+      _60_seconds_from_now = new Date(now + 60*1000);
 
-    var errorCallback = function(result) {
-      $ionicPopup.alert({
-        title: 'Error !',
-        template: 'Error while creating alarm'
-      }).then(function(res) {
-      });
-    };
+    window.plugin.notification.local.add({
+      id:      1,
+      title:   'Reminder',
+      message: 'Dont forget to buy some flowers.',
+      repeat:  'weekly',
+      date:    _60_seconds_from_now
+    });
 
-    //console.log(cordova);
-    //console.log(window);
-    //console.log(navigator.plugins);
+        //$ionicPopup.alert({
+        //  title: 'Success !',
+        //  template: message
+        //}).then(function(res) {
+        //});
 
-    window.wakeuptimer.wakeup(
-      successCallback,
-      errorCallback,
-      // a list of alarms to set
-      {
-        alarms : [{
-          type : 'onetime',
-          time : { hour : 11, minute : 20 },
-          extra : { message : 'json containing app-specific information to be posted when alarm triggers' },
-          message : 'Alarm has expired!'
-        }]
-      }
-    );
   })
