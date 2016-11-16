@@ -22,16 +22,16 @@ angular.module('wakeupApp')
 
     return {        
         get : function(date) {
-            u ='https://edtmobilite.wigorservices.net/WebPsDyn.aspx';
+            var u ='http://edtmobilite.wigorservices.net/WebPsDyn.aspx';
             u += '?Action=posETUD&serverid=f&tel=' + login + '&date=';
             u += $filter('date')(date, "MM/dd/yyyy'%20'HH:mm");
 
             return $http.get(u)
-                .then(function(response) {
+                    .then(function(response) {
                         // Process the HTML before passing data to
                         // controller
                         console.log("Réponse");
-                        /*
+                        
                         var parser = new DOMParser();
                         var doc = parser.parseFromString(response.data,
                                                          'text/html');
@@ -42,12 +42,10 @@ angular.module('wakeupApp')
                             return [];
                         courses = getCoursesList(coursesRootElem);
                       
-                        console.log(courses);
-
                         // TODO:
                         // Add courses for current day to cache
 
-                        return courses;*/
+                        return courses;
                     }, function(result) {
                         // TODO: Handle error
                         console.log(result);
