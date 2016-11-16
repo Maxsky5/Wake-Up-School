@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('wakeupApp', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services'])
+angular.module('wakeupApp', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'angularMoment'])
 
-.run(function($ionicPlatform, $http) {
+.run(function($ionicPlatform, $http, amMoment) {
   $ionicPlatform.ready(function($http) {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,8 +19,9 @@ angular.module('wakeupApp', ['ionic', 'ngCordova', 'starter.controllers', 'start
       StatusBar.styleDefault();
     }
 
-    //amMoment.changeLocale('fr');
   });
+
+  amMoment.changeLocale('fr');
 
   $http.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 })
