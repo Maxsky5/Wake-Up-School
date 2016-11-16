@@ -1,0 +1,18 @@
+<ion-view view-title="Paramètres">
+  <ion-nav-bar class="bar-positive">
+  </ion-nav-bar>
+  <ion-content>
+    <ion-list>
+      <ion-toggle ng-model="settings.enableNotificationsBeforeCourses">
+        Me notifier avant chaque cours
+      </ion-toggle>
+      <ion-toggle ng-model="settings.enableAlarms">
+        Activer les réveils
+      </ion-toggle>
+      <div class="item item-input" style="padding-right: 16px;">
+          <span class="input-label">Nb mins avant réveil</span>
+          <input ng-disabled="!settings.enableAlarms" type="number" class="text-right" ng-model="settings.timeBetweenAlarmAndCourses" ng-change="checkTimeAlarm()">
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>

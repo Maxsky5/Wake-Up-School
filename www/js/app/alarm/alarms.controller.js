@@ -32,4 +32,4 @@ angular.module('wakeupApp')
       //});
 
     }
-  })
+  });
