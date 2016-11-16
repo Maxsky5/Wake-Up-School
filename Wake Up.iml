@@ -6,6 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/platforms" />
+      <excludeFolder url="file://$MODULE_DIR$/plugins/org.nypr.cordova.wakeupplugin/examples/SimpleAlarmExample/platforms" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
