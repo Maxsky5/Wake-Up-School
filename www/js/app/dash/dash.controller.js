@@ -1,6 +1,5 @@
 angular.module('wakeupApp')
-.controller('DashCtrl', function($scope, $rootScope, $location, $anchorScroll,
-            CoursesService) {
+.controller('DashCtrl', function($scope, $rootScope, CoursesService) {
     var currentWeekDate = moment().startOf('week');
     var currentWeek = 0;
     currentWeekDate.hours(8);
@@ -12,7 +11,7 @@ angular.module('wakeupApp')
         });
     };
 
-    function updateWeek() {
+    function updateWeek(refresh) {
         var today = moment();
 
         $scope.days = [];
@@ -33,30 +32,46 @@ angular.module('wakeupApp')
                 date : d.clone(),
                 isToday : d.isSame(today, 'day')
             }
+
+            // If we were asked to refresh, we firsly 
+            // empty the cache for that day
+            if (refresh)
+                CoursesService.removeFromCache(d);
+
             getCourses(d, dayObj);
             $scope.days.push(dayObj);
             d.add(1, 'days');
         }
+        
+        // Store the cache for that new day in the local storage
+        CoursesService.storeCache();
 
         if (currentWeek == 0)
         {
             console.log('Scrolling to today');
+            /*
+            scroll = no good
+            
             $location.hash('today');
-            $anchorScroll();
+            $anchorScroll();*/
         }
     }
 
     $scope.previousWeek = function () {
         currentWeekDate.subtract(1, 'weeks');
         currentWeek--;
-        updateWeek();
+        updateWeek(false);
     }
 
     $scope.nextWeek = function () {
         currentWeekDate.add(1, 'weeks');
         currentWeek++;
-        updateWeek();
+        updateWeek(false);
     }
 
-    updateWeek();
+    $scope.refreshWeek = function() {
+        updateWeek(true);
+    }
+
+    updateWeek(false);
 })
