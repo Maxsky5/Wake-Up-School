@@ -1,7 +1,12 @@
 angular.module('wakeupApp')
-.factory('CoursesService', function($filter, $http, LoginService) {
-    var courses = [];
+.factory('CoursesService', function($filter, $http, $q, LoginService) {
+    var coursesCache = {};
     var login = LoginService.getLogin();
+    var server= LoginService.getServer();
+
+    function serializeDate(date) {
+        return date.format('YYYYMMDD');
+    }
 
     function getCoursesList(elemRoot) {
         var courses = [];
@@ -13,7 +18,7 @@ angular.module('wakeupApp')
                 end : e.querySelector('.Fin').textContent,
                 teacher : e.querySelector('.Prof').textContent,
                 room : e.querySelector('.Salle').textContent,
-                name : e.querySelector('.Matiere').textContent
+                name : e.querySelector('.Matiere').textContent,
             };
             courses.push(obj);
         }
@@ -22,9 +27,18 @@ angular.module('wakeupApp')
 
     return {
         get : function(date) {
+            var cacheIndex = serializeDate(date);
+
+            // If we have it in cache already, don't make a new request
+            if (coursesCache.hasOwnProperty(cacheIndex)) {
+                return $q(function(resolve, reject) {
+                    resolve(coursesCache[cacheIndex]);
+                });
+            }
+       
             var url ='http://edtmobilite.wigorservices.net/WebPsDyn.aspx';
-            url += '?Action=posETUD&serverid=f&tel=' + login + '&date=';
-            url += $filter('date')(date, "MM/dd/yyyy'%20'HH:mm");
+            url += '?Action=posETUD&serverid=' + server + '&tel=' + login;
+            url += '&date=' + date.format('MM/DD/YYYY[%20]HH:mm');
 
             return $http.get(url)
                     .then(function(response) {
@@ -38,10 +52,11 @@ angular.module('wakeupApp')
                         if (coursesRootElem == null)
                             // TODO: Handle error: Invalid html file
                             return [];
+                        
                         courses = getCoursesList(coursesRootElem);
                       
-                        // TODO:
-                        // Add courses for current day to cache
+                        // Cache it in memory
+                        coursesCache[cacheIndex] = courses;
 
                         return courses;
                     }, function(result) {

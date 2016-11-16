@@ -1,1 +1,27 @@
 /* Empty. Add your own CSS if you like */
+.arrow-schedule { 
+    font-size: 26px;
+} 
+
+.week-select { 
+    margin-top: 7px; 
+} 
+
+.center { 
+    text-align: center; 
+} 
+
+p.center, i.arrow-schedule 
+{ 
+    margin: 0; 
+    padding: 0; 
+}
+
+.ion-chevron-left:before { 
+    padding-left: 10px; 
+} 
+
+.ion-chevron-right:before { 
+    padding-right: 10px; 
+}
+

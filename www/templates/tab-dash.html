@@ -2,12 +2,39 @@
   <ion-nav-bar class="bar-positive">
   </ion-nav-bar>
   <ion-content>
+
+    <div class="row row-top week-select"> 
+        <div>
+            <p ng-click="previousWeek()" 
+            class="icon ion-chevron-left arrow-schedule"></p>
+        </div> 
+        <div class="col">
+            <p class="center">{{weekTitle}}</p>
+        </div> 
+        <div>
+            <p ng-click="nextWeek()"
+            class="icon ion-chevron-right arrow-schedule"></p>
+        </div>
+    </div>
+
     <ul class="list">
-        <li class="item" ng-repeat="course in courses" type="item-text-wrap"> 
-            <h2>{{course.start}} - {{course.end}}</h2>
-            <p>Salle {{course.room}}</p>
-            <p>{{course.name}}</p>
-        </li>
+        <div ng-repeat="day in days"> 
+            <li style="text-transform: capitalize;" class="item item-divider">
+                <a id="today" ng-if="day.isToday"></a>
+                <h2>{{day.date | amDateFormat:"dddd DD MMMM" }}</h2>
+            </li>
+            
+            <li ng-if="day.courses.length == 0" class="item">
+                <p>Pas de cours</p>
+            </li>
+
+            <li ng-if"day.courses.lengthi" class="item" 
+                ng-repeat="course in day.courses" type="item-text-wrap">
+                <h3>{{course.start}} - {{course.end}}</h3>
+                <p>Salle {{course.room}}</p>
+                <p>{{course.name}}</p>
+            </li>
+        </div>
     </ul>
   </ion-content>
 </ion-view>
