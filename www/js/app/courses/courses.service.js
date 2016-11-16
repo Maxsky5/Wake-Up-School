@@ -20,22 +20,20 @@ angular.module('wakeupApp')
         return courses;
     }
 
-    return {        
+    return {
         get : function(date) {
-            var u ='http://edtmobilite.wigorservices.net/WebPsDyn.aspx';
-            u += '?Action=posETUD&serverid=f&tel=' + login + '&date=';
-            u += $filter('date')(date, "MM/dd/yyyy'%20'HH:mm");
+            var url ='http://edtmobilite.wigorservices.net/WebPsDyn.aspx';
+            url += '?Action=posETUD&serverid=f&tel=' + login + '&date=';
+            url += $filter('date')(date, "MM/dd/yyyy'%20'HH:mm");
 
-            return $http.get(u)
+            return $http.get(url)
                     .then(function(response) {
                         // Process the HTML before passing data to
                         // controller
-                        console.log("Réponse");
-                        
                         var parser = new DOMParser();
                         var doc = parser.parseFromString(response.data,
                                                          'text/html');
-                        
+
                         var coursesRootElem = doc.getElementById('Region');
                         if (coursesRootElem == null)
                             // TODO: Handle error: Invalid html file
