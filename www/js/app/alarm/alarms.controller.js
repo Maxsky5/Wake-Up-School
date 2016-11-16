@@ -4,7 +4,7 @@ angular.module('wakeupApp')
         {
           id: 1,
           name: 'Porro',
-          date: new Date()
+          date: moment().add(2, 'hours')
         },
         {
           id: 2,
