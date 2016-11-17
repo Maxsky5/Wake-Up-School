@@ -13,7 +13,7 @@ angular.module('wakeupApp')
             dayObj.courses = courses;
         });
     };
-    
+
     // Called when the update finished
     function updateEnded() {
         // We fully loaded a week, now store the cache to the local storage
@@ -42,7 +42,7 @@ angular.module('wakeupApp')
 
         $scope.days = [];
         $scope.weekTitle = "";
-    
+
         if (currentWeek == 0)
             $scope.weekTitle = "Semaine en cours";
         else if (currentWeek == -1)
@@ -60,7 +60,7 @@ angular.module('wakeupApp')
                 isToday : date.isSame(today, 'day')
             };
 
-            // If we were asked to refresh, we firstly 
+            // If we were asked to refresh, we firstly
             // empty the cache for that day
             if (refresh)
                 CoursesService.removeFromCache(date);
@@ -74,9 +74,9 @@ angular.module('wakeupApp')
                         updateEnded();
                 });
             })(date, dayObj);
-            
+
             // Don't wait until the end of the loading to display the days,
-            // so they will be displayed first then be filled with their 
+            // so they will be displayed first then be filled with their
             // courses.
             $scope.days.push(dayObj);
             date.add(1, 'days');

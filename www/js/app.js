@@ -8,12 +8,6 @@
 angular.module('wakeupApp', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'angularMoment', 'LocalStorageModule'])
 
   .run(function ($ionicPlatform, $http, amMoment, $rootScope) {
-    $rootScope.settings = {
-      timeBetweenAlarmAndCourses: 90,
-      enableAlarms: true,
-      enableNotificationsBeforeCourses: true
-    }
-
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)

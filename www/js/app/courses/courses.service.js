@@ -1,7 +1,7 @@
 angular.module('wakeupApp')
 .factory('CoursesService', function($filter, $http, $q, LoginService,
-    localStorageService) {
-   
+    localStorageService, NotificationService) {
+
     // Load cache from local storage
     var coursesCache = localStorageService.get('courses');
     if (coursesCache == null)
@@ -36,6 +36,7 @@ angular.module('wakeupApp')
             endDate.minutes(tmp.minutes());
 
             var obj = {
+                id: parseInt(startDate.format('YYYYMMDDHH')),
                 start : startDate,
                 end : endDate,
                 teacher : e.querySelector('.Prof').textContent,
@@ -43,6 +44,7 @@ angular.module('wakeupApp')
                 name : e.querySelector('.Matiere').textContent,
             };
             courses.push(obj);
+            NotificationService.set(obj);
         }
         return courses;
     }
@@ -59,13 +61,12 @@ angular.module('wakeupApp')
             if (coursesCache.hasOwnProperty(cacheIndex)) {
                 delete coursesCache[cacheIndex];
             }
-            //this.storeCache();
         },
 
         // Empty the memory and filesystem cache
         emptyCache : function() {
             coursesCache = {};
-            localStorageService.set('courses', {});
+            localStorageService.remove('courses');
         },
 
         // Returns a Promise for the Course object for given date.
@@ -77,13 +78,13 @@ angular.module('wakeupApp')
             // Make a new request if we don't have courses for that day yet
             // or if we removed it from the cache (== null).
             var cacheIndex = serializeDate(date);
-            if (coursesCache.hasOwnProperty(cacheIndex) 
+            if (coursesCache.hasOwnProperty(cacheIndex)
                 && coursesCache[cacheIndex] != null) {
                 return $q(function(resolve, reject) {
                     resolve(coursesCache[cacheIndex]);
                 });
             }
-    
+
             var url ='http://edtmobilite.wigorservices.net/WebPsDyn.aspx';
             url += '?Action=posETUD&serverid=' + server + '&tel=' + login;
             url += '&date=' + date.format('MM/DD/YYYY[%20]HH:mm');
@@ -100,11 +101,11 @@ angular.module('wakeupApp')
                         if (coursesRootElem == null)
                             // TODO: Handle error: Invalid html file?
                             return [];
-                       
+
                         var courses = getCoursesList(coursesRootElem, date);
-                
-                        // Cache it in memory (for now). In order to save some 
-                        // disk IO operation, cache to disk is made manually 
+
+                        // Cache it in memory (for now). In order to save some
+                        // disk IO operation, cache to disk is made manually
                         // through storeCache(). (eg: After fully loading a
                         // week)
                         coursesCache[cacheIndex] = courses;

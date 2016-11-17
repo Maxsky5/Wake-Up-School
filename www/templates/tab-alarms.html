@@ -4,8 +4,9 @@
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-icon-right" ng-repeat="alarm in alarms" type="item-text-wrap" href="#/tab/alarms/{{alarm.id}}">
-        <h2>{{alarm.name}}</h2>
-        <p>{{alarm.date | amDateFormat:'DD/MM/YYYY HH:mm'}}</p>
+        <h2>{{alarm.title}}</h2>
+        <p>{{alarm.text}}</p>
+        <p>{{alarm.at | date : 'dd/MM/yyyy HH:mm'}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
         <ion-option-button class="button-assertive" ng-click="">
@@ -13,5 +14,6 @@
         </ion-option-button>
       </ion-item>
     </ion-list>
+    <button class="button button-full button-balanced" ng-click="countNotifications()">Count notifications</button>
   </ion-content>
 </ion-view>
