@@ -46,7 +46,13 @@ angular.module('wakeupApp')
                 name : e.querySelector('.Matiere').textContent,
             };
             courses.push(obj);
-            if (startDate.isAfter()) {
+            if (
+              //startDate.isAfter()
+              //&&
+              (
+                localStorageService.get('settings.enableNotificationsBeforeCourses') == null
+                ||
+                localStorageService.get('settings.enableNotificationsBeforeCourses') === true)) {
               (function (o) {
                 NotificationService.set(o);
               })(obj);
