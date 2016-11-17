@@ -6,42 +6,40 @@ angular.module('wakeupApp')
     $scope.settings = {};
 
     if (localStorageService.get('settings.enableNotificationsBeforeCourses') != null) {
-      $scope.settings.enableNotificationsBeforeCourses = 
+      $scope.settings.enableNotificationsBeforeCourses =
         localStorageService.get('settings.enableNotificationsBeforeCourses');
     } else {
-      localStorageService.set('settings.enableNotificationsBeforeCourses', 
+      localStorageService.set('settings.enableNotificationsBeforeCourses',
                               true);
     }
 
     if (localStorageService.get('settings.enableAlarms') != null) {
-      $scope.settings.enableAlarms = 
+      $scope.settings.enableAlarms =
         localStorageService.get('settings.enableAlarms');
     } else {
       localStorageService.set('settings.enableAlarms', true);
     }
 
     if (localStorageService.get('settings.timeBetweenAlarmAndCourses')) {
-      $scope.settings.timeBetweenAlarmAndCourses = 
+      $scope.settings.timeBetweenAlarmAndCourses =
         localStorageService.get('settings.timeBetweenAlarmAndCourses');
     } else {
       localStorageService.set('settings.timeBetweenAlarmAndCourses', 90);
     }
 
     if (localStorageService.get('settings.loginName') != null) {
-        $scope.settings.loginName = 
+        $scope.settings.loginName =
             localStorageService.get('settings.loginName');
     }
 
-    console.log($scope.settings);
-
     $scope.unbind1 = localStorageService.bind(
-                                $scope, 
+                                $scope,
                                 'settings.enableNotificationsBeforeCourses');
     $scope.unbind2 = localStorageService.bind(
-                                $scope, 
+                                $scope,
                                 'settings.enableAlarms');
     $scope.unbind3 = localStorageService.bind(
-                                    $scope, 
+                                    $scope,
                                     'settings.timeBetweenAlarmAndCourses');
     $scope.unbind4 = localStorageService.bind(
                                     $scope,
@@ -60,10 +58,12 @@ angular.module('wakeupApp')
     }
 
     $scope.cancelAlarms = function() {
-      cordova.plugins.notification.local.clearAll(function() {
-      });
-      cordova.plugins.notification.local.cancelAll(function() {
-      });
+      if (window.cordova) {
+        cordova.plugins.notification.local.clearAll(function () {
+        });
+        cordova.plugins.notification.local.cancelAll(function () {
+        });
+      }
     }
 
   })

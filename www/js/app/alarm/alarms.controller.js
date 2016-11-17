@@ -5,9 +5,11 @@ angular.module('wakeupApp')
       $scope.alarms = [];
 
     $scope.loadAlarms = function() {
-      cordova.plugins.notification.local.getAll(function (notifications) {
-        $scope.alarms = notifications;
-      });
+      if (window.cordova) {
+        cordova.plugins.notification.local.getAll(function (notifications) {
+          $scope.alarms = notifications;
+        });
+      }
     }
 
     if (window.cordova) {
