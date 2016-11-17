@@ -3,7 +3,7 @@ angular.module('wakeupApp')
     return {
       set: function (c) {
         (function (course) {
-          var date = course.start.clone().add(2, 'minutes').toDate();
+          var date = course.start.clone().subtract(10, 'minutes').toDate();
           cordova.plugins.notification.local.isPresent(course.id, function (present) {
             if (present) {
               //alert('NotifSrv - update : ' + moment(date).format('YYYY-MM-DD HH:mm'));
