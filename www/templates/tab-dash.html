@@ -12,7 +12,7 @@
         class="icon ion-chevron-right arrow-schedule"></p>
     </div>
     
-    <ion-content class="padding-content" delegate-handle="dashDelegate">
+    <ion-content class="platform-ios padding-content" delegate-handle="dashDelegate">
         <ul class="list">
             <div ng-repeat="day in days">
                 <a id="today" ng-if="day.isToday"></a>
@@ -27,8 +27,9 @@
                 
                 <li ng-if="day.courses.length" class="item"
                     ng-repeat="course in day.courses" type="item-text-wrap">
-                    <h3>{{course.start | amDateFormat:"HH:mm"}} - 
+                    <h3 style="text-align: left; float: left;">{{course.start | amDateFormat:"HH:mm"}} -
                         {{course.end | amDateFormat:"HH:mm"}}</h3>
+                    <p style="text-align:right;">Angèle Peynaud</p>
                     <p>Salle {{course.room}}</p>
                     <p>{{course.name}}</p>
                 </li>
