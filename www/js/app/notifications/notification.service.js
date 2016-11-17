@@ -2,7 +2,7 @@ angular.module('wakeupApp')
   .factory('NotificationService', function () {
     return {
       set: function (c) {
-        if (window.cordova) {
+        if (window.cordova && window.cordova.plugins) {
           (function (course) {
             var date = course.start.clone().subtract(10, 'minutes').toDate();
             cordova.plugins.notification.local.isPresent(course.id, function (present) {
