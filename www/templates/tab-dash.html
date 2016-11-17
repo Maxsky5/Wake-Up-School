@@ -25,7 +25,7 @@
                     <p>Pas de cours</p>
                 </li>
                 
-                <li ng-if"day.courses.lengthi" class="item"
+                <li ng-if="day.courses.length" class="item"
                     ng-repeat="course in day.courses" type="item-text-wrap">
                     <h3>{{course.start}} - {{course.end}}</h3>
                     <p>Salle {{course.room}}</p>
