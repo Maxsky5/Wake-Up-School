@@ -29,7 +29,8 @@
                     ng-repeat="course in day.courses" type="item-text-wrap">
                     <h3 style="text-align: left; float: left;">{{course.start | amDateFormat:"HH:mm"}} -
                         {{course.end | amDateFormat:"HH:mm"}}</h3>
-                    <p style="text-align:right;">Angèle Peynaud</p>
+                    <p style="text-align:right;">{{course.teacher}}</p>
+                    <div class="clearfix"></div>
                     <p>Salle {{course.room}}</p>
                     <p>{{course.name}}</p>
                 </li>
