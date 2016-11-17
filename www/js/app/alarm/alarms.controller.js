@@ -1,11 +1,17 @@
+'use strict';
+
 angular.module('wakeupApp')
   .controller('AlarmsCtrl', function ($scope, NotificationService) {
       $scope.alarms = [];
 
-    if (window.cordova) {
+    $scope.loadAlarms = function() {
       cordova.plugins.notification.local.getAll(function (notifications) {
         $scope.alarms = notifications;
       });
+    }
+
+    if (window.cordova) {
+      $scope.loadAlarms();
     } else {
       $scope.alarms = [
         {
@@ -21,9 +27,5 @@ angular.module('wakeupApp')
           at: new Date()
         }
       ];
-    }
-
-    $scope.countNotifications = function() {
-      NotificationService.getAll();
     }
   });

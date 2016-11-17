@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('wakeupApp')
 .factory('CoursesService', function($filter, $http, $q, LoginService,
     localStorageService, NotificationService) {
@@ -44,7 +46,11 @@ angular.module('wakeupApp')
                 name : e.querySelector('.Matiere').textContent,
             };
             courses.push(obj);
-            NotificationService.set(obj);
+            if (startDate.isAfter()) {
+              (function (o) {
+                NotificationService.set(o);
+              })(obj);
+            }
         }
         return courses;
     }
@@ -70,7 +76,8 @@ angular.module('wakeupApp')
         },
 
         // Returns a Promise for the Course object for given date.
-        get : function(date) {
+        get : function(d) {
+            var date = d.clone();
             // We are retrieving classes for the day, so make sure that the
             // date is before the beginning of the class. 8am = good
             date.hours(8);
@@ -102,7 +109,7 @@ angular.module('wakeupApp')
                             // TODO: Handle error: Invalid html file?
                             return [];
 
-                        var courses = getCoursesList(coursesRootElem, date);
+                        var courses = getCoursesList(coursesRootElem, date.clone());
 
                         // Cache it in memory (for now). In order to save some
                         // disk IO operation, cache to disk is made manually
@@ -116,6 +123,7 @@ angular.module('wakeupApp')
                         console.log(result);
                     }
                 );
+
         }
     };
 });

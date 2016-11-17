@@ -1,5 +1,7 @@
+'use strict';
+
 angular.module('wakeupApp')
-  .controller('SettingsCtrl', function ($scope, $rootScope, localStorageService) {
+  .controller('SettingsCtrl', function ($scope, $rootScope, localStorageService, CoursesService) {
 
     $scope.settings = {};
 
@@ -48,6 +50,17 @@ angular.module('wakeupApp')
       //$rootScope.settings.timeBetweenAlarmAndCourses = $scope.settings.timeBetweenAlarmAndCourses;
       //localStorageService.set('settings.timeBetweenAlarmAndCourses', $scope.settings.timeBetweenAlarmAndCourses);
       console.log(localStorageService.keys());
+    }
+
+    $scope.clearCourses = function() {
+      CoursesService.emptyCache();
+    }
+
+    $scope.cancelAlarms = function() {
+      cordova.plugins.notification.local.clearAll(function() {
+      });
+      cordova.plugins.notification.local.cancelAll(function() {
+      });
     }
 
   })

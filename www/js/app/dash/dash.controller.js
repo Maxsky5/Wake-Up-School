@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('wakeupApp')
 .controller('DashCtrl', function($scope, $rootScope, $ionicScrollDelegate,
                                  $location, CoursesService) {

@@ -14,5 +14,7 @@
           <input ng-disabled="!settings.enableAlarms" type="number" class="text-right input-param col-2" ng-model="settings.timeBetweenAlarmAndCourses" ng-change="checkTimeAlarm()">
       </div>
     </ion-list>
+    <button class="button button-full button-assertive" ng-click="clearCourses()">Vider le cache des cours</button>
+    <button class="button button-full button-assertive" ng-click="cancelAlarms()">Annuler toutes les notification</button>
   </ion-content>
 </ion-view>

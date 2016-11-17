@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('wakeupApp')
   .factory('LoginService', function() {
       return {

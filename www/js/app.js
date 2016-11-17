@@ -1,3 +1,5 @@
+'use strict';
+
 // Ionic Starter App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
@@ -5,9 +7,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('wakeupApp', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'angularMoment', 'LocalStorageModule'])
+angular.module('wakeupApp', ['ionic', 'ngCordova', 'angularMoment', 'LocalStorageModule'])
 
-  .run(function ($ionicPlatform, $http, amMoment, $rootScope) {
+  .run(function ($ionicPlatform, $http, amMoment) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
