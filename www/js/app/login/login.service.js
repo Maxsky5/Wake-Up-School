@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('wakeupApp')
-  .factory('LoginService', function() {
+  .factory('LoginService', function(localStorageService) {
       return {
-          getLogin : function() { return 'g.detcheverry'; },
+          getLogin : function() { 
+            return localStorageService.get('settings.loginName');
+          },
           getServer : function() {
               // f - bordeaux
               // i - lyon

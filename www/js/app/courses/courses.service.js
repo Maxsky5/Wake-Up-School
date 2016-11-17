@@ -91,6 +91,8 @@ angular.module('wakeupApp')
                     resolve(coursesCache[cacheIndex]);
                 });
             }
+            
+            console.log(login);
 
             var url ='http://edtmobilite.wigorservices.net/WebPsDyn.aspx';
             url += '?Action=posETUD&serverid=' + server + '&tel=' + login;

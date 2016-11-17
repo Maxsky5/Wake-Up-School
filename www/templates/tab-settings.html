@@ -13,6 +13,11 @@
           <span class="input-label text-param col-8">Nb mins avant réveil</span>
           <input ng-disabled="!settings.enableAlarms" type="number" class="text-right input-param col-2" ng-model="settings.timeBetweenAlarmAndCourses" ng-change="checkTimeAlarm()">
       </div>
+      <div class="item item-input row setting-align">
+          <span class="input-label text-param col-8">Nom de compte Ecampus</span>
+          <input type="text" class="text-right input-param col-2"
+                 ng-model="settings.loginName" ng-change="loginNameChange()" /> 
+      </div>
     </ion-list>
     <button class="button button-full button-assertive" ng-click="clearCourses()">Vider le cache des cours</button>
     <button class="button button-full button-assertive" ng-click="cancelAlarms()">Annuler toutes les notification</button>
