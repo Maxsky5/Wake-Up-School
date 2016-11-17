@@ -2,9 +2,11 @@ angular.module('wakeupApp')
 .controller('DashCtrl', function($scope, $rootScope, $ionicScrollDelegate,
                                  $location, CoursesService) {
     var currentWeekDate = moment().startOf('week');
-    var currentWeek = 0;
     currentWeekDate.hours(8);
+    var currentWeek = 0;
+    var loadedCount = 0;
 
+    // Fetchs the courses from the service for given date.
     function getCourses(date, dayObj) {
         CoursesService.get(date)
         .then(function(courses) {
@@ -12,8 +14,12 @@ angular.module('wakeupApp')
         });
     };
 
+    // Updates the dashboard with courses for the selected week
     function updateWeek(refresh) {
         var today = moment();
+        loadedCount = 0;
+
+        CoursesService.emptyCache();
 
         $scope.days = [];
         $scope.weekTitle = "";
@@ -27,25 +33,39 @@ angular.module('wakeupApp')
         else
             $scope.weekTitle = "Semaine " + currentWeekDate.weeks();
 
-        var d = currentWeekDate.clone();
+        var date = currentWeekDate.clone();
         for (var i = 0; i < 5; ++i) {
-            var dayObj = {
-                date : d.clone(),
-                isToday : d.isSame(today, 'day')
-            }
+            // TODO: Manage =>  isToday : d.isSame(today, 'day')
 
-            // If we were asked to refresh, we firsly 
+            // TODO create day obj
+            var dayObj = {
+                date : date.clone(),
+                courses : false,
+                isToday : date.isSame(today, 'day')
+            };
+
+            // If we were asked to refresh, we firstly 
             // empty the cache for that day
             if (refresh)
-                CoursesService.removeFromCache(d);
+                CoursesService.removeFromCache(date);
 
-            getCourses(d, dayObj);
+            // Start to load courses for that day
+            (function(d, o) {
+                CoursesService.get(d).then(function(courses) {
+                    o.courses = courses;
+                });
+            })(date, dayObj);
+            
+            // Don't wait until the end of the loading to display the days,
+            // so they will be displayed first then be filled with their 
+            // courses.
             $scope.days.push(dayObj);
-            d.add(1, 'days');
+            date.add(1, 'days');
         }
         
+        // TODO: THIS HAS TO BE DONE ONCE WE FULLY LOADED EVERY DAYS
         // Store the cache for that new day in the local storage
-        CoursesService.storeCache();
+        //CoursesService.storeCache();
 
         // Adapt the view. Scroll to today if we're on the current week page,
         // or to the top if we're on some other page.
@@ -65,12 +85,14 @@ angular.module('wakeupApp')
         }
     }
 
+    // Control that selects the previous week to be displayed
     $scope.previousWeek = function () {
         currentWeekDate.subtract(1, 'weeks');
         currentWeek--;
         updateWeek(false);
     }
 
+    // Control that selects the next week to be displayed
     $scope.nextWeek = function () {
         currentWeekDate.add(1, 'weeks');
         currentWeek++;
