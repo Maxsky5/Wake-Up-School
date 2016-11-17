@@ -4,10 +4,18 @@ angular.module('wakeupApp')
 .controller('DashCtrl', function($scope, $rootScope, $ionicScrollDelegate,
                                  $location, CoursesService) {
     var today = moment();
-    var currentWeekDate = moment().startOf('week');
-    currentWeekDate.hours(8);
     var currentWeek = 0;
     var loadedCount = 0;
+
+    // Non locale-dependent to get te start of week.
+    // If we are on saturday, this will set us up to last monday. If we are on
+    // sunday, this should set us to the next monday
+    var currentWeekDate = moment().day(1);
+    currentWeekDate.hours(8);
+
+    // If we are on saturday, consider ourself in the next week
+    if (today.day() == 6)
+        currentWeekDate.add(1, 'weeks');
 
     // Fetchs the courses from the service for given date.
     function getCourses(date, dayObj) {
