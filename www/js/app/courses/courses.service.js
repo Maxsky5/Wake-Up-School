@@ -17,14 +17,27 @@ angular.module('wakeupApp')
     }
 
     // Create an object based on the given epsioline Course XML element
-    function getCoursesList(elemRoot) {
+    function getCoursesList(elemRoot, date) {
         var courses = [];
         for (var i = 0; i < elemRoot.children.length; ++i)
         {
             var e = elemRoot.children[i];
+
+            // Retreive start date:
+            var startDate = date.clone();
+            var tmp = moment(e.querySelector('.Debut').textContent, "HH:mm");
+            startDate.hours(tmp.hours());
+            startDate.minutes(tmp.minutes());
+
+            // Retrieve end date:
+            var endDate = date.clone();
+            tmp = moment(e.querySelector('.Fin').textContent, "HH:mm");
+            endDate.hours(tmp.hours());
+            endDate.minutes(tmp.minutes());
+
             var obj = {
-                start : e.querySelector('.Debut').textContent,
-                end : e.querySelector('.Fin').textContent,
+                start : startDate,
+                end : endDate,
                 teacher : e.querySelector('.Prof').textContent,
                 room : e.querySelector('.Salle').textContent,
                 name : e.querySelector('.Matiere').textContent,
@@ -37,6 +50,8 @@ angular.module('wakeupApp')
     return {
         // Stores the cache into the local storage
         storeCache : function() {
+            console.log('Storing following cache in storage:');
+            console.log(coursesCache);
             localStorageService.set('courses', coursesCache);
         },
 
@@ -49,12 +64,20 @@ angular.module('wakeupApp')
             //this.storeCache();
         },
 
+        emptyCache : function() {
+            coursesCache = {};
+            localStorageService.set('courses', {});
+        },
+
         // Returns a Promise for the Course object for given date.
         get : function(date) {
-            var cacheIndex = serializeDate(date);
+            // We are retrieving classes for the day, so make sure that the
+            // date is before the beginning of the class. 8am = good
+            date.hours(8);
 
             // Make a new request if we don't have courses for that day yet
             // or if we removed it from the cache (== null).
+            var cacheIndex = serializeDate(date);
             if (coursesCache.hasOwnProperty(cacheIndex) 
                 && coursesCache[cacheIndex] != null) {
                 return $q(function(resolve, reject) {
@@ -78,9 +101,9 @@ angular.module('wakeupApp')
                         if (coursesRootElem == null)
                             // TODO: Handle error: Invalid html file?
                             return [];
-                        
-                        courses = getCoursesList(coursesRootElem);
-                      
+                       
+                        var courses = getCoursesList(coursesRootElem, date);
+                
                         // Cache it in memory (for now). In order to save some 
                         // disk IO operation, cache to disk is made manually 
                         // through storeCache(). (eg: After fully loading a

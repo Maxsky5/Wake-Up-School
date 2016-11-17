@@ -39,9 +39,7 @@ angular.module('wakeupApp')
     }
 
     $scope.checkTimeAlarm = function () {
-      if (!$scope.settings.timeBetweenAlarmAndCourses) {
-        $scope.settings.timeBetweenAlarmAndCourses = 90;
-      } else if ($scope.settings.timeBetweenAlarmAndCourses > 180) {
+      if ($scope.settings.timeBetweenAlarmAndCourses > 180) {
         $scope.settings.timeBetweenAlarmAndCourses = 180;
       } else if ($scope.settings.timeBetweenAlarmAndCourses < 0) {
         $scope.settings.timeBetweenAlarmAndCourses = 0;
