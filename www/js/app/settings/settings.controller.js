@@ -5,9 +5,6 @@ angular.module('wakeupApp')
 
     $scope.settings = {};
 
-    console.log(localStorageService.get('settings.enableNotificationsBeforeCourses'));
-    console.log(localStorageService.get('settings.enableAlarms'));
-
     if (localStorageService.get('settings.enableNotificationsBeforeCourses') != null) {
       $scope.settings.enableNotificationsBeforeCourses = localStorageService.get('settings.enableNotificationsBeforeCourses');
     } else {
@@ -32,24 +29,12 @@ angular.module('wakeupApp')
     $scope.unbind2 = localStorageService.bind($scope, 'settings.enableAlarms');
     $scope.unbind3 = localStorageService.bind($scope, 'settings.timeBetweenAlarmAndCourses');
 
-    $scope.checkEnableNotifications = function () {
-      $rootScope.settings.enableNotificationsBeforeCourses = $scope.settings.enableNotificationsBeforeCourses;
-    }
-
-    $scope.checkEnableAlarms = function () {
-      $rootScope.settings.enableAlarms = $scope.settings.enableAlarms;
-    }
-
     $scope.checkTimeAlarm = function () {
       if ($scope.settings.timeBetweenAlarmAndCourses > 180) {
         $scope.settings.timeBetweenAlarmAndCourses = 180;
       } else if ($scope.settings.timeBetweenAlarmAndCourses < 0) {
         $scope.settings.timeBetweenAlarmAndCourses = 0;
       }
-
-      //$rootScope.settings.timeBetweenAlarmAndCourses = $scope.settings.timeBetweenAlarmAndCourses;
-      //localStorageService.set('settings.timeBetweenAlarmAndCourses', $scope.settings.timeBetweenAlarmAndCourses);
-      console.log(localStorageService.keys());
     }
 
     $scope.clearCourses = function() {

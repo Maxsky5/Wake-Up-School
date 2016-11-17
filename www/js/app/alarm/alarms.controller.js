@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('wakeupApp')
-  .controller('AlarmsCtrl', function ($scope, NotificationService) {
+  .controller('AlarmsCtrl', function ($scope) {
       $scope.alarms = [];
 
     $scope.loadAlarms = function() {
