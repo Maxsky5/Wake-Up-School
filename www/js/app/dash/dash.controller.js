@@ -3,6 +3,7 @@
 angular.module('wakeupApp')
 .controller('DashCtrl', function($scope, $rootScope, $ionicScrollDelegate,
                                  $location, CoursesService) {
+    var today = moment();
     var currentWeekDate = moment().startOf('week');
     currentWeekDate.hours(8);
     var currentWeek = 0;
@@ -39,7 +40,6 @@ angular.module('wakeupApp')
 
     // Updates the dashboard with courses for the selected week
     function updateWeek(refresh) {
-        var today = moment();
         loadedCount = 0;
 
         $scope.days = [];
