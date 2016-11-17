@@ -9,10 +9,6 @@ angular.module('wakeupApp')
     if (coursesCache == null)
         coursesCache = {};
 
-    // Get user info from the login service
-    var login = LoginService.getLogin();
-    var server= LoginService.getServer();
-
     // Returns a serialized YYYYMMDD date for cache identification purpose
     function serializeDate(date) {
         return date.format('YYYYMMDD');
@@ -97,7 +93,12 @@ angular.module('wakeupApp')
                     resolve(coursesCache[cacheIndex]);
                 });
             }
-            
+
+
+            // Get user info from the login service
+            var login = LoginService.getLogin();
+            var server= LoginService.getServer();
+
             var url ='http://edtmobilite.wigorservices.net/WebPsDyn.aspx';
             url += '?Action=posETUD&serverid=' + server + '&tel=' + login;
             url += '&date=' + date.format('MM/DD/YYYY[%20]HH:mm');
