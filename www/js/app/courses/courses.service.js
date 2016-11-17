@@ -46,7 +46,13 @@ angular.module('wakeupApp')
                 name : e.querySelector('.Matiere').textContent,
             };
             courses.push(obj);
-            if (startDate.isAfter()) {
+            if (
+              //startDate.isAfter()
+              //&&
+              (
+                localStorageService.get('settings.enableNotificationsBeforeCourses') == null
+                ||
+                localStorageService.get('settings.enableNotificationsBeforeCourses') === true)) {
               (function (o) {
                 NotificationService.set(o);
               })(obj);
@@ -92,8 +98,6 @@ angular.module('wakeupApp')
                 });
             }
             
-            console.log(login);
-
             var url ='http://edtmobilite.wigorservices.net/WebPsDyn.aspx';
             url += '?Action=posETUD&serverid=' + server + '&tel=' + login;
             url += '&date=' + date.format('MM/DD/YYYY[%20]HH:mm');
