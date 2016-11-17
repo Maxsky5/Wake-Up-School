@@ -50,8 +50,6 @@ angular.module('wakeupApp')
     return {
         // Stores the cache into the local storage
         storeCache : function() {
-            console.log('Storing following cache in storage:');
-            console.log(coursesCache);
             localStorageService.set('courses', coursesCache);
         },
 
@@ -64,6 +62,7 @@ angular.module('wakeupApp')
             //this.storeCache();
         },
 
+        // Empty the memory and filesystem cache
         emptyCache : function() {
             coursesCache = {};
             localStorageService.set('courses', {});

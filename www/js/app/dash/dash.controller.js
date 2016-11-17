@@ -13,13 +13,32 @@ angular.module('wakeupApp')
             dayObj.courses = courses;
         });
     };
+    
+    // Called when the update finished
+    function updateEnded() {
+        // We fully loaded a week, now store the cache to the local storage
+        CoursesService.storeCache();
+
+        // Adapt the view. Scroll to today if we're on the current week page,
+        // or to the top if we're on some other page.
+        var handle = $ionicScrollDelegate.$getByHandle('dashDelegate');
+        if (currentWeek == 0)
+        {
+            $location.hash('today');
+            // We'll animate when scrolling to today (= true)
+            handle.anchorScroll(true);
+        }
+        else
+        {
+            $location.hash('');
+            handle.scrollTop(false);
+        }
+    }
 
     // Updates the dashboard with courses for the selected week
     function updateWeek(refresh) {
         var today = moment();
         loadedCount = 0;
-
-        CoursesService.emptyCache();
 
         $scope.days = [];
         $scope.weekTitle = "";
@@ -35,9 +54,6 @@ angular.module('wakeupApp')
 
         var date = currentWeekDate.clone();
         for (var i = 0; i < 5; ++i) {
-            // TODO: Manage =>  isToday : d.isSame(today, 'day')
-
-            // TODO create day obj
             var dayObj = {
                 date : date.clone(),
                 courses : false,
@@ -53,6 +69,9 @@ angular.module('wakeupApp')
             (function(d, o) {
                 CoursesService.get(d).then(function(courses) {
                     o.courses = courses;
+                    loadedCount++;
+                    if (loadedCount >= 5)
+                        updateEnded();
                 });
             })(date, dayObj);
             
@@ -61,27 +80,6 @@ angular.module('wakeupApp')
             // courses.
             $scope.days.push(dayObj);
             date.add(1, 'days');
-        }
-        
-        // TODO: THIS HAS TO BE DONE ONCE WE FULLY LOADED EVERY DAYS
-        // Store the cache for that new day in the local storage
-        //CoursesService.storeCache();
-
-        // Adapt the view. Scroll to today if we're on the current week page,
-        // or to the top if we're on some other page.
-        var handle = $ionicScrollDelegate.$getByHandle('dashDelegate');
-        if (currentWeek == 0)
-        {
-            setTimeout(function() {
-                $location.hash('today');
-                // We'll animate when scrolling to today (= true)
-                handle.anchorScroll(true);
-            }, 10);
-        }
-        else
-        {
-            $location.hash('');
-            handle.scrollTop(false);
         }
     }
 
