@@ -1,5 +1,6 @@
 angular.module('wakeupApp')
-.controller('DashCtrl', function($scope, $rootScope, CoursesService) {
+.controller('DashCtrl', function($scope, $rootScope, $ionicScrollDelegate,
+                                 $location, CoursesService) {
     var currentWeekDate = moment().startOf('week');
     var currentWeek = 0;
     currentWeekDate.hours(8);
@@ -46,14 +47,21 @@ angular.module('wakeupApp')
         // Store the cache for that new day in the local storage
         CoursesService.storeCache();
 
+        // Adapt the view. Scroll to today if we're on the current week page,
+        // or to the top if we're on some other page.
+        var handle = $ionicScrollDelegate.$getByHandle('dashDelegate');
         if (currentWeek == 0)
         {
-            console.log('Scrolling to today');
-            /*
-            scroll = no good
-            
-            $location.hash('today');
-            $anchorScroll();*/
+            setTimeout(function() {
+                $location.hash('today');
+                // We'll animate when scrolling to today (= true)
+                handle.anchorScroll(true);
+            }, 10);
+        }
+        else
+        {
+            $location.hash('');
+            handle.scrollTop(false);
         }
     }
 

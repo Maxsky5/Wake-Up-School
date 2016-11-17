@@ -12,11 +12,12 @@
         class="icon ion-chevron-right arrow-schedule"></p>
     </div>
     
-    <ion-content class="padding-content">
+    <ion-content class="padding-content" delegate-handle="dashDelegate">
         <ul class="list">
             <div ng-repeat="day in days">
-                <li style="text-transform: capitalize;" class="item item-divider">
-                    <a id="today" ng-if="day.isToday"></a>
+                <a id="today" ng-if="day.isToday"></a>
+                <li style="text-transform: capitalize;" 
+                    class="item item-divider">
                     <h2>{{day.date | amDateFormat:"dddd DD MMMM" }}</h2>
                 </li>
                 
